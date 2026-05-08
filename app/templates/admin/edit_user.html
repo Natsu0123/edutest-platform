@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Редактирование пользователя | {{ _('brand') }}{% endblock %}
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>Редактирование пользователя</h1>
+        <p class="muted">Изменение логина, роли, группы и пароля</p>
+    </div>
+    <div class="actions-row">
+        <a class="button button-secondary" href="{{ url_for('admin.users') }}">Назад</a>
+    </div>
+</section>
+
+<section class="card">
+    <form method="post" class="form-grid">
+        {{ form.hidden_tag() }}
+
+        <div>
+            {{ form.full_name.label }}
+            {{ form.full_name(class_='input') }}
+        </div>
+
+        <div>
+            {{ form.username.label }}
+            {{ form.username(class_='input') }}
+        </div>
+
+        <div>
+            {{ form.password.label }}
+            {{ form.password(class_='input', placeholder='Оставь пустым, если не менять пароль') }}
+        </div>
+
+        <div>
+            {{ form.role.label }}
+            {{ form.role(class_='input', id='role-select') }}
+        </div>
+
+        <div id="group-field">
+            {{ form.group_id.label }}
+            {{ form.group_id(class_='input') }}
+        </div>
+
+        <div>
+            {{ form.submit(class_='button') }}
+        </div>
+    </form>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const roleSelect = document.getElementById('role-select');
+    const groupField = document.getElementById('group-field');
+
+    function toggleGroupField() {
+        if (roleSelect.value === 'student') {
+            groupField.style.display = 'block';
+        } else {
+            groupField.style.display = 'none';
+        }
+    }
+
+    roleSelect.addEventListener('change', toggleGroupField);
+    toggleGroupField();
+});
+</script>
+{% endblock %}

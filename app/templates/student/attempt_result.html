@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}{{ _('student.result_title') }} | {{ _('brand') }}{% endblock %}
+{% block content %}
+<section class="card result-card">
+    <h1>{{ _('student.result_title') }}</h1>
+    <p class="muted">{{ _('common.title') }}: {{ attempt.test.title }}</p>
+    <div class="result-grid">
+    <div class="metric">
+        <span class="metric-label">Правильных ответов</span>
+        <strong>{{ attempt.correct_count }} / {{ attempt.total_questions }}</strong>
+    </div>
+
+    <div class="metric">
+        <span class="metric-label">Набрано баллов</span>
+        <strong>{{ attempt.earned_score }} / {{ attempt.max_score }}</strong>
+    </div>
+
+    <div class="metric">
+        <span class="metric-label">Процент</span>
+        <strong>{{ attempt.score_percent }}%</strong>
+    </div>
+</div>
+    <div class="actions-row">
+        <a class="button button-secondary" href="{{ url_for('student.dashboard') }}">{{ _('student.back_dashboard') }}</a>
+        <a class="button" href="{{ url_for('student.results') }}">{{ _('student.back_history') }}</a>
+    </div>
+</section>
+{% endblock %}

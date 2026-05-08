@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}{{ _('admin.groups_title') }} | {{ _('brand') }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>{{ _('admin.groups_title') }}</h1>
+        <p class="muted">{{ _('admin.groups_desc') }}</p>
+    </div>
+    {% if current_user.is_admin %}
+        <a class="button" href="{{ url_for('admin.upload_group') }}">{{ _('admin.group_import') }}</a>
+    {% endif %}
+</section>
+
+{% for group in groups %}
+<section class="card">
+    <div class="page-header">
+        <div>
+            <h2>{{ group.name }}</h2>
+            <p class="muted">{{ _('admin.group_students_count', count=group.students|length) }}</p>
+        </div>
+        <div class="actions-row">
+            <a class="button button-secondary" href="{{ url_for('admin.group_students', group_id=group.id) }}">
+                {{ _('admin.group_open') }}
+            </a>
+        </div>
+    </div>
+
+    {% if current_user.is_admin %}
+    <form method="post" action="{{ url_for('admin.assign_group', group_id=group.id) }}" class="form-grid">
+        <div class="page-header">
+            <div>
+                <h3>{{ _('admin.assign_teachers') }}</h3>
+                <p class="muted">{{ _('admin.assign_teachers_desc', group=group.name) }}</p>
+            </div>
+        </div>
+
+        <div class="checkbox-grid">
+            {% for teacher in teachers %}
+                <label class="option-item">
+                    <input type="checkbox" name="teacher_ids" value="{{ teacher.id }}"
+                        {% if teacher in group.teachers %}checked{% endif %}>
+                    <span>{{ teacher.full_name }} ({{ teacher.username }})</span>
+                </label>
+            {% endfor %}
+        </div>
+        <button class="button" type="submit">{{ _('admin.save_assignment') }}</button>
+    </form>
+    {% endif %}
+</section>
+{% endfor %}
+{% endblock %}

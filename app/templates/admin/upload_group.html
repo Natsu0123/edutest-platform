@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Импорт группы | {{ _('brand') }}{% endblock %}
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>Импорт группы</h1>
+        <p class="muted">Загрузка студентов из Excel-файла</p>
+    </div>
+</section>
+
+<section class="card">
+    <form method="post" enctype="multipart/form-data" class="form-grid">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.file.label }}
+            {{ form.file(class_='input') }}
+        </div>
+        <div>
+            {{ form.submit(class_='button') }}
+        </div>
+    </form>
+</section>
+{% endblock %}

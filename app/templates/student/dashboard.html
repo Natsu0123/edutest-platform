@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}{{ _('student.dashboard_title') }} | {{ _('brand') }}{% endblock %}
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>{{ _('student.dashboard_title') }}</h1>
+        <p class="muted">{{ _('student.welcome', name=current_user.full_name) }}</p>
+    </div>
+    <a class="button button-secondary" href="{{ url_for('student.results') }}">{{ _('student.history') }}</a>
+</section>
+
+<section class="card">
+    <h2>{{ _('student.assigned_tests') }}</h2>
+    {% if assignment_rows %}
+<div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{{ _('common.title') }}</th>
+                    <th>{{ _('common.description') }}</th>
+                    <th>{{ _('common.time') }}</th>
+                    <th>{{ _('common.attempts') }}</th>
+                    <th>{{ _('common.status') }}</th>
+                    <th>{{ _('common.action') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in assignment_rows %}
+                    <tr>
+                        <td>{{ row.assignment.test.title }}</td>
+                        <td>{{ row.assignment.test.description }}</td>
+                        <td>{{ row.assignment.test.time_limit_minutes }} {{ _('common.minutes_suffix') }}</td>
+                        <td>{{ row.remaining_attempts }} / {{ row.assignment.test.max_attempts }}</td>
+                        <td>
+                            <span class="status {% if row.status == _('status.done') %}status-done{% else %}status-new{% endif %}">{{ row.status }}</span>
+                        </td>
+                        <td>
+                            {% if row.remaining_attempts > 0 %}
+                                <form method="post" action="{{ url_for('student.start_test', test_id=row.assignment.test.id) }}">
+                                    <button class="button" type="submit">{{ _('student.start_test') }}</button>
+                                </form>
+                            {% else %}
+                                <span class="muted">{{ _('student.attempts_over') }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</div>
+    {% else %}
+        <p class="empty-state">{{ _('student.no_assigned') }}</p>
+    {% endif %}
+</section>
+{% endblock %}

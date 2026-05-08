@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}{{ _('nav.register') }} | {{ _('brand') }}{% endblock %}
+{% block content %}
+<section class="card auth-card">
+<div style="text-align:center; margin-bottom:20px;">
+    <div style="font-size:42px;">📝</div>
+</div>
+    <h1>{{ _('auth.register_title') }}</h1>
+    <p class="muted">{{ _('auth.register_desc') }}</p>
+    <form method="post" class="form-grid">
+        {{ form.hidden_tag() }}
+        <label>
+            <span>{{ _('auth.full_name') }}</span>
+            {{ form.full_name() }}
+        </label>
+        <label>
+            <span>{{ _('auth.username') }}</span>
+            {{ form.username() }}
+        </label>
+        <label>
+            <span>{{ _('auth.password') }}</span>
+            <div class="password-field">
+                {{ form.password(id='password') }}
+                <button type="button" class="password-toggle" data-toggle-password="#password">Показать пароль</button>
+            </div>
+        </label>
+        <label>
+            <span>{{ _('auth.confirm_password') if _('auth.confirm_password') else 'Повтори пароль' }}</span>
+            <div class="password-field">
+                {{ form.confirm_password(id='confirm_password') }}
+                <button type="button" class="password-toggle" data-toggle-password="#confirm_password">Показать пароль</button>
+            </div>
+        </label>
+        {{ form.submit(class_='button', style="width:100%; font-size:16px;", value=_('nav.register')) }}
+    </form>
+    <p class="form-footer">{{ _('auth.have_account') }} <a href="{{ url_for('auth.login') }}">{{ _('nav.login') }}</a></p>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-toggle-password]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const input = document.querySelector(btn.getAttribute('data-toggle-password'));
+      if (!input) return;
+      input.type = input.type === 'password' ? 'text' : 'password';
+      btn.textContent = input.type === 'password' ? 'Показать' : 'Скрыть';
+    });
+  });
+});
+</script>
+{% endblock %}

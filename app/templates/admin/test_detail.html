@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% block title %}{{ test.title }} | {{ _('brand') }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>{{ test.title }}</h1>
+        <p class="muted">{{ test.description }}</p>
+    </div>
+    <div class="actions-row">
+        <a class="button" href="{{ url_for('admin.add_question', test_id=test.id) }}">{{ _('admin.add_question_button') }}</a>
+        <form method="post" action="{{ url_for('admin.duplicate_test', test_id=test.id) }}" style="display:inline-block;">
+            <button class="button button-secondary" type="submit">Дублировать тест</button>
+        </form>
+        <form method="post" action="{{ url_for('admin.delete_test', test_id=test.id) }}" onsubmit="return confirm('Удалить тест? Это удалит вопросы, назначения и результаты.');">
+            {{ csrf_form.hidden_tag() }}
+            <button class="button button-secondary" type="submit">Удалить тест</button>
+        </form>
+    </div>
+</section>
+
+<section class="card">
+    <h2>{{ _('admin.details_title') }}</h2>
+    <div class="detail-grid">
+        <div><strong>{{ _('common.time') }}:</strong> {{ test.time_limit_minutes }} {{ _('common.minutes_suffix') }}</div>
+        <div><strong>{{ _('common.attempts') }}:</strong> {{ test.max_attempts }}</div>
+        <div><strong>{{ _('common.questions') }}:</strong> {{ test.questions|length }}</div>
+    </div>
+</section>
+
+<section class="card">
+    <h2>{{ _('admin.questions_title') }}</h2>
+    {% if test.questions %}
+        {% for question in test.questions %}
+            <div class="question-preview">
+                <h3>{{ loop.index }}. {{ question.text }}</h3>
+
+                {% if question.image_path %}
+                    <img src="{{ url_for('static', filename=question.image_path) }}" 
+                        style="max-width: 300px; margin: 10px 0;">
+                {% endif %}
+<div class="actions-row" style="margin-bottom: 10px;">
+    <a class="button button-secondary" href="{{ url_for('admin.edit_question', question_id=question.id) }}">
+        Редактировать
+    </a>
+
+    <form method="post" action="{{ url_for('admin.duplicate_question', question_id=question.id) }}" style="display:inline-block;">
+        <button class="button button-secondary" type="submit">Дублировать</button>
+    </form>
+</div>
+                <p class="muted">
+                    {{ _('admin.question_type') }}:
+                    {{ _(question_type_labels.get(question.normalized_type, 'question_type.single_choice')) }}
+    ·               · Баллы: {{ question.points }}
+                </p>
+
+                {% if question.normalized_type in ['single_choice', 'multiple_choice'] %}
+                    <ul>
+                        {% for option in question.answer_options %}
+                            <li>
+                                {% if option.is_correct %}<strong>✓</strong>{% else %}•{% endif %}
+                                {{ option.text }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                {% elif question.normalized_type == 'text' %}
+                    <p><strong>{{ _('admin.text_correct_answer') }}:</strong> {{ question.payload.get('correct_text', '') }}</p>
+
+                {% elif question.normalized_type == 'matching' %}
+                    <ul>
+                        {% for pair in question.payload.get('pairs', []) %}
+                            <li>{{ pair.left if pair.left is defined else pair['left'] }} → {{ pair.right if pair.right is defined else pair['right'] }}</li>
+                        {% endfor %}
+                    </ul>
+
+                {% elif question.normalized_type == 'ordering' %}
+                    <ol>
+                        {% for item in question.payload.get('items', []) %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ol>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="empty-state">{{ _('admin.no_questions') }}</p>
+    {% endif %}
+</section>
+
+<section class="card">
+    <h2>{{ _('admin.assign_students') }}</h2>
+    <form method="post" action="{{ url_for('admin.assign_test', test_id=test.id) }}" class="form-grid">
+        <div class="checkbox-grid">
+            {% for group in groups %}
+                <div class="card" style="margin-bottom:10px; padding:16px;">
+                    <h3>{{ group.name }}</h3>
+
+                    <div class="detail-grid" style="margin-bottom: 12px;">
+                        <label>
+                            <span>Вопросов каждому ученику группы</span>
+                            <input
+                                type="number"
+                                name="group_question_limit_{{ group.id }}"
+                                min="1"
+                                max="{{ test.questions|length }}"
+                                value="{{ test.questions_per_student }}"
+                            >
+                        </label>
+
+                        <label>
+                            <span>Максимальный балл для ученика</span>
+                            <input
+                                type="number"
+                                name="group_target_score_{{ group.id }}"
+                                min="1"
+                                value="{{ test.target_score }}"
+                            >
+                        </label>
+                    </div>
+
+                    <label class="option-item">
+                        <input type="checkbox" name="group_ids" value="{{ group.id }}">
+                        <span>Назначить всей группе</span>
+                    </label>
+
+                    <details style="margin-top: 12px;">
+                        <summary>Выбрать отдельных учеников</summary>
+
+                        <div class="checkbox-grid" style="margin-top: 10px;">
+                            {% for student in group.students %}
+                                {% set student_settings = assignment_settings.get(student.id, {}) %}
+                                <div class="card" style="padding:10px;">
+                                    <label class="option-item">
+                                        <input
+                                            type="checkbox"
+                                            name="student_ids"
+                                            value="{{ student.id }}"
+                                            {% if student.id in assigned_user_ids %}checked{% endif %}
+                                        >
+                                        <span>{{ student.full_name }} ({{ student.username }})</span>
+                                    </label>
+
+                                    <div class="detail-grid" style="margin-top: 8px;">
+                                        <label>
+                                            <span>Вопросов</span>
+                                            <input
+                                                type="number"
+                                                name="student_question_limit_{{ student.id }}"
+                                                min="1"
+                                                max="{{ test.questions|length }}"
+                                                value="{{ student_settings.get('question_limit', test.questions_per_student) }}"
+                                            >
+                                        </label>
+
+                                        <label>
+                                            <span>Макс балл</span>
+                                            <input
+                                                type="number"
+                                                name="student_target_score_{{ student.id }}"
+                                                min="1"
+                                                value="{{ student_settings.get('target_score', test.target_score) }}"
+                                            >
+                                        </label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </details>
+                </div>
+            {% endfor %}
+        </div>
+
+        <button class="button" type="submit">{{ _('admin.save_assignments') }}</button>
+    </form>
+
+<form method="post" action="{{ url_for('admin.generate_variants', test_id=test.id) }}">
+    <h3>Генерация вариантов</h3>
+
+    <label>Количество вариантов</label>
+    <input type="number" name="variants_count" value="5">
+
+    <label>Вопросов в варианте</label>
+    <input type="number" name="questions_per_variant" value="{{ test.questions|length }}">
+
+    <label>Максимальный балл</label>
+    <input type="number" name="target_score" value="{{ test.target_score }}">
+
+    <button class="button">Сгенерировать DOCX</button>
+</form>
+
+</section>
+{% endblock %}
+
+<form method="post" action="{{ url_for('admin.generate_variants', test_id=test.id) }}">
+    <h3>Генерация вариантов</h3>
+
+    <label>Количество вариантов</label>
+    <input type="number" name="variants_count" value="5">
+
+    <label>Вопросов в варианте</label>
+    <input type="number" name="questions_per_variant" value="{{ test.questions|length }}">
+
+    <label>Максимальный балл</label>
+    <input type="number" name="target_score" value="{{ test.target_score }}">
+
+    <button class="button">Сгенерировать DOCX</button>
+</form>

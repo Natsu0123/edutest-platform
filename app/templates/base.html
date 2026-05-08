@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="{{ current_language }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>
+    (function () {
+        const savedTheme = localStorage.getItem('theme') || 'theme-dark';
+        document.documentElement.classList.remove('theme-light', 'theme-dark');
+        document.documentElement.classList.add(savedTheme);
+    })();
+    </script>
+
+    <title>{% block title %}{{ _('brand') }}{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head_extra %}{% endblock %}
+</head>
+<body>
+    <header class="header">
+        <div class="container header-inner">
+            <div>
+                <a href="{{ url_for('auth.index') }}" style="display:flex; align-items:center; gap:10px; text-decoration:none;">
+                    <img
+                        src="{{ url_for('static', filename='images/logo.jpg') }}"
+                        alt="EduTest logo"
+                        style="height:40px; width:40px; object-fit:cover; border-radius:10px;"
+                    >
+                    <div>
+                        <div class="brand" style="line-height:1;">EduTest</div>
+                        <p class="subtitle" style="margin:2px 0 0 0; font-size:13px;">
+                            {{ _('base.subtitle') }}
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            <button type="button" class="nav-toggle" data-nav-toggle aria-label="Menu">
+                ☰
+            </button>
+
+            <nav class="nav" data-mobile-nav>
+                <div class="nav-links">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.is_staff %}
+                            {% if current_user.is_admin %}
+                                <a href="{{ url_for('admin.admin_dashboard') }}">{{ _('nav.admin') }}</a>
+                                <a href="{{ url_for('admin.users') }}">{{ _('nav.users') }}</a>
+                            {% endif %}
+                            <a href="{{ url_for('admin.upload_tests') }}">{{ _('nav.import') }}</a>
+                            <a href="{{ url_for('admin.tests') }}">{{ _('nav.tests') }}</a>
+                            <a href="{{ url_for('admin.results') }}">{{ _('nav.results') }}</a>
+                            <a href="{{ url_for('admin.action_logs') }}">Журнал</a>
+                            <a href="{{ url_for('admin.groups') }}">{{ _('nav.groups') }}</a>
+                        {% else %}
+                            <a href="{{ url_for('student.dashboard') }}">{{ _('nav.dashboard') }}</a>
+                            <a href="{{ url_for('student.results') }}">{{ _('nav.results') }}</a>
+                        {% endif %}
+
+                        <a class="button button-secondary nav-logout" href="{{ url_for('auth.logout') }}">{{ _('nav.logout') }}</a>
+                    {% else %}
+                        <a href="{{ url_for('auth.login') }}">{{ _('nav.login') }}</a>
+                        <a href="{{ url_for('auth.register') }}">{{ _('nav.register') }}</a>
+                    {% endif %}
+                </div>
+
+                <div class="header-tools">
+                    <button type="button" class="theme-toggle" data-theme-toggle aria-label="Toggle theme">
+                        🌙
+                    </button>
+
+                    <div class="language-switcher" data-lang-switcher>
+                        <button type="button" class="lang-button" data-lang-button>
+                            {{ available_languages.get(current_language, current_language) }}
+                        </button>
+                        <div class="lang-menu" data-lang-menu hidden>
+                            {% for code, label in available_languages.items() %}
+                                <a href="{{ url_for('auth.set_language', lang_code=code) }}" class="lang-item {% if code == current_language %}active-language{% endif %}">
+                                    {{ label }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container page-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-stack">
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const navToggle = document.querySelector('[data-nav-toggle]');
+        const mobileNav = document.querySelector('[data-mobile-nav]');
+        const themeToggle = document.querySelector('[data-theme-toggle]');
+
+        function applyTheme(theme) {
+            document.documentElement.classList.remove('theme-light', 'theme-dark');
+            document.documentElement.classList.add(theme);
+            localStorage.setItem('theme', theme);
+
+            if (themeToggle) {
+                themeToggle.textContent = theme === 'theme-dark' ? '☀️' : '🌙';
+            }
+        }
+
+        const initialTheme = localStorage.getItem('theme') || 'theme-dark';
+        applyTheme(initialTheme);
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.contains('theme-dark');
+                applyTheme(isDark ? 'theme-light' : 'theme-dark');
+            });
+        }
+
+        if (navToggle && mobileNav) {
+            navToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('nav-open');
+            });
+        }
+
+        document.querySelectorAll('[data-lang-switcher]').forEach((switcher) => {
+            const button = switcher.querySelector('[data-lang-button]');
+            const menu = switcher.querySelector('[data-lang-menu]');
+
+            if (!button || !menu) return;
+
+            button.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const isHidden = menu.hasAttribute('hidden');
+
+                document.querySelectorAll('[data-lang-menu]').forEach((otherMenu) => {
+                    otherMenu.setAttribute('hidden', '');
+                });
+
+                if (isHidden) {
+                    menu.removeAttribute('hidden');
+                }
+            });
+        });
+
+        document.addEventListener('click', () => {
+            document.querySelectorAll('[data-lang-menu]').forEach((menu) => {
+                menu.setAttribute('hidden', '');
+            });
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                document.querySelectorAll('[data-lang-menu]').forEach((menu) => {
+                    menu.setAttribute('hidden', '');
+                });
+            }
+        });
+    });
+    </script>
+</body>
+</html>

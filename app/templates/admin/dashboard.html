@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}{{ _('admin.dashboard_title') }} | {{ _('brand') }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>{{ _('admin.dashboard_title') }}</h1>
+        <p class="muted">{{ _('admin.dashboard_desc') }}</p>
+    </div>
+    <div class="actions-row">
+        <a class="button hero-button" href="{{ url_for('admin.upload_tests') }}">📤 {{ _('admin.upload_file') }}</a>
+        <a class="button button-secondary" href="{{ url_for('admin.tests') }}">🧾 {{ _('admin.all_tests') }}</a>
+        <a class="button button-secondary" href="{{ url_for('admin.action_logs') }}">📘 Журнал</a>
+        {% if current_user.is_admin %}
+            <form method="post" action="{{ url_for('admin.seed') }}">
+                <button class="button button-secondary" type="submit">{{ _('admin.seed_demo') }}</button>
+            </form>
+        {% endif %}
+    </div>
+</section>
+
+<section class="stats-grid">
+    <article class="card stat-card stat-accent-blue">
+        <span>{{ _('common.users') }}</span>
+        <strong>{{ stats.students }}</strong>
+        <small class="metric-label">Активные ученики</small>
+    </article>
+
+    <article class="card stat-card stat-accent-violet">
+        <span>{{ _('nav.tests') }}</span>
+        <strong>{{ stats.tests }}</strong>
+        <small class="metric-label">Созданные тесты</small>
+    </article>
+
+    <article class="card stat-card stat-accent-sky">
+        <span>{{ _('admin.all_tests') }}</span>
+        <strong>{{ stats.assignments }}</strong>
+        <small class="metric-label">Назначения ученикам</small>
+    </article>
+
+    <article class="card stat-card stat-accent-green">
+        <span>{{ _('nav.results') }}</span>
+        <strong>{{ stats.attempts }}</strong>
+        <small class="metric-label">Завершённые попытки</small>
+    </article>
+</section>
+
+<section class="card">
+    <div class="page-header">
+        <div>
+            <h2>{{ _('admin.test_list') }}</h2>
+            <p class="muted">{{ _('admin.test_list_desc') }}</p>
+        </div>
+        <a class="button button-secondary" href="{{ url_for('admin.tests') }}">{{ _('admin.all_tests') }}</a>
+    </div>
+
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{{ _('common.title') }}</th>
+                    <th>{{ _('common.questions') }}</th>
+                    <th>{{ _('common.attempts') }}</th>
+                    <th>{{ _('common.time') }}</th>
+                    <th>{{ _('common.open') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for test in tests %}
+                    <tr>
+                        <td>{{ test.title }}</td>
+                        <td>{{ test.questions|length }}</td>
+                        <td>{{ test.max_attempts }}</td>
+                        <td>{{ test.time_limit_minutes }} {{ _('common.minutes_suffix') }}</td>
+                        <td>
+                            <a class="button button-secondary" href="{{ url_for('admin.view_test', test_id=test.id) }}">
+                                {{ _('common.open') }}
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="empty-state">{{ _('admin.not_uploaded_tests') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

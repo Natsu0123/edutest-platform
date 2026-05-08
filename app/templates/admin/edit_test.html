@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Tahrirlash</h2>
+
+<form method="post">
+    {{ form.hidden_tag() }}
+
+    <p>Nomi</p>
+    {{ form.title }}
+
+    <p>Tavsif</p>
+    {{ form.description }}
+
+    <p>Vaqt (min)</p>
+    {{ form.time_limit_minutes }}
+
+    <p>Urinishlar</p>
+    {{ form.max_attempts }}
+
+    <p>Ball</p>
+    {{ form.target_score }}
+
+    <p>Savollar soni</p>
+    {{ form.questions_per_student }}
+
+    <br>
+    <button class="button">Saqlash</button>
+</form>
+{% endblock %}

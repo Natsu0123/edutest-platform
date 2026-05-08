@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}{{ _('admin.create_test_title') }} | {{ _('brand') }}{% endblock %}
+{% block content %}
+<section class="card form-card">
+    <h1>{{ _('admin.create_test_title') }}</h1>
+    <form method="post" class="form-grid">
+        {{ form.hidden_tag() }}
+
+        <label>
+            <span>{{ _('common.title') }}</span>
+            {{ form.title() }}
+        </label>
+
+        <label>
+            <span>{{ _('common.description') }}</span>
+            {{ form.description(rows=4) }}
+        </label>
+
+        <label>
+            <span>{{ _('common.time') }}</span>
+            {{ form.time_limit_minutes(min=1) }}
+        </label>
+
+        <label>
+            <span>{{ _('common.attempts') }}</span>
+            {{ form.max_attempts(min=1) }}
+        </label>
+
+        <label>
+            <span>Общий балл теста</span>
+            {{ form.target_score(min=1) }}
+        </label>
+
+        <label>
+            <span>Макс количество вопросов</span>
+            {{ form.questions_per_student(min=1) }}
+        </label>
+
+        {{ form.submit(class_='button', value=_('admin.create_test')) }}
+    </form>
+</section>
+{% endblock %}

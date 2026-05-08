@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% block title %}{{ _('admin.users_title') }} | {{ _('brand') }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>{{ _('admin.users_title') }}</h1>
+        <p class="muted">{{ _('admin.users_desc') }}</p>
+    </div>
+    <div class="actions-row">
+        <a class="button" href="{{ url_for('admin.create_user') }}">Добавить пользователя</a>
+        <a class="button button-secondary" href="{{ url_for('admin.upload_group') }}">Импорт группы из Excel</a>
+    </div>
+</section>
+
+<section class="card">
+    <div class="page-header">
+        <div>
+            <h2>Учителя</h2>
+            <p class="muted">Список преподавателей, зарегистрированных в системе.</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>{{ _('admin.full_name') }}</th>
+                    <th>{{ _('admin.username') }}</th>
+                    <th>{{ _('admin.role') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in teachers %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td><strong>{{ user.full_name }}</strong></td>
+                        <td>{{ user.username }}</td>
+                        <td><span class="status status-new">{{ user.role }}</span></td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="muted">Учителей пока нет</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="card">
+    <div class="page-header">
+        <div>
+            <h2>Студенты без группы</h2>
+            <p class="muted">Пользователи, которых ещё не распределили по группам.</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>{{ _('admin.full_name') }}</th>
+                    <th>{{ _('admin.username') }}</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in ungrouped_students %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td><strong>{{ user.full_name }}</strong></td>
+                        <td>{{ user.username }}</td>
+                        <td>
+                            <form method="post"
+                                  action="{{ url_for('admin.delete_user', user_id=user.id) }}"
+                                  onsubmit="return confirm('Удалить пользователя?');"
+                                  style="display:inline;">
+                                <button class="button button-secondary" type="submit">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="muted">Студентов без группы нет</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="card">
+    <div class="page-header">
+        <div>
+            <h2>Группы</h2>
+            <p class="muted">Быстрый переход к списку студентов внутри группы.</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название группы</th>
+                    <th>Количество студентов</th>
+                    <th>Открыть</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for group in groups %}
+                    <tr>
+                        <td>{{ group.id }}</td>
+                        <td><strong>{{ group.name }}</strong></td>
+                        <td>{{ group.students|length }}</td>
+                        <td>
+                            <a class="button button-secondary" href="{{ url_for('admin.group_students', group_id=group.id) }}">
+                                Открыть
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="muted">Групп пока нет</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="card">
+    <div class="page-header">
+        <div>
+            <h2>Все пользователи</h2>
+            <p class="muted">Общий список с быстрым переходом к редактированию и удалению.</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>{{ _('admin.full_name') }}</th>
+                    <th>{{ _('admin.username') }}</th>
+                    <th>{{ _('admin.role') }}</th>
+                    <th>Группа</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in all_users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td><strong>{{ user.full_name }}</strong></td>
+                        <td>{{ user.username }}</td>
+                        <td>
+                            {% if user.role == 'admin' %}
+                                <span class="status" style="background: rgba(124, 58, 237, 0.14); color: #7c3aed;">admin</span>
+                            {% elif user.role == 'teacher' %}
+                                <span class="status status-new">teacher</span>
+                            {% else %}
+                                <span class="status status-done">student</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ user.group.name if user.group else '—' }}</td>
+                        <td>
+                            <div class="actions-row">
+                                <a class="button button-secondary" href="{{ url_for('admin.edit_user', user_id=user.id) }}">
+                                    Редактировать
+                                </a>
+
+                                {% if user.id != current_user.id %}
+                                    <form method="post"
+                                          action="{{ url_for('admin.delete_user', user_id=user.id) }}"
+                                          onsubmit="return confirm('Удалить пользователя?');"
+                                          style="display:inline-block;">
+                                        <button class="button button-secondary" type="submit">Удалить</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="muted">Пользователей пока нет</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

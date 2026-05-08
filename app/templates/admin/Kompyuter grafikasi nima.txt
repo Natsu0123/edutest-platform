@@ -1,0 +1,720 @@
+Kompyuter grafikasi nima?
+Kompyuter o‘yinlarini yaratish sohasi
+Matnli hujjatlarni tahrirlash sohasi
+Faqat animatsiya yaratish sohasi
+*Kompyuter yordamida tasvirlarni yaratish va qayta ishlash sohasi
+
+Rastr grafika qanday tuziladi?
+Chiziqlar orqali
+Formulalar orqali
+*Piksellar asosida
+Kataklar orqali
+
+Vektor grafika qanday xususiyatga ega?
+*Matematik formulalar yordamida yaratiladi
+Rastrli tasvirlardan iborat
+Har doim katta hajmda bo‘ladi
+Faqat qora-oq ranglarda bo‘ladi
+
+CorelDRAW dasturi qaysi grafik turida ishlaydi?
+*Vektor grafika
+Raster grafika
+3D grafika
+Fraktal grafika
+
+Photoshop dasturi qaysi grafik turida ishlaydi?
+3D grafika
+*Raster grafika
+Vektor grafika
+Fraktal grafika
+
+Kompyuter grafikasi turlari qaysilar?
+Matn, ovoz, video
+*Raster, vektor, fraktal, 3D
+Oq-qora va rangli
+Logotip va chizma
+
+Raster grafikaning kamchiligi nimada?
+*Kattalashtirilganda sifat yo‘qoladi
+Fayl hajmi kichik
+Ranglar soni oz
+Faqat oq rangda bo‘ladi
+
+Vektor grafika asosan qayerda qo‘llaniladi?
+Fotosurat tahririda
+*Logotip, diagramma, chizma tayyorlashda
+Video montajda
+Skanerda
+
+Kompyuter grafikasi maqsadi nima?
+Kod yozish
+*Ma’lumotni vizual shaklda ifodalash
+Matn tahrirlash
+Internetda ishlash
+
+Tasvir ekranda nimadan tashkil topgan?
+Bayt
+*Piksel
+Rang
+Chiziq
+
+3D grafikasi nimani anglatadi?
+Ikki o‘lchamli rasm
+*Uch o‘lchamli modellashtirish
+Ranglash
+2D tahriri
+
+Kompyuter grafikasi qayerlarda qo‘llaniladi?
+Faqat reklama
+*Dizayn, tibbiyot, ilmiy vizualizatsiya
+Faqat matnli dizayn
+Faqat video montaj
+
+“Resolution” nimani bildiradi?
+*Tasvir aniqligi (piksellar soni)
+Fayl hajmi
+Rang chuqurligi
+Monitor o‘lchami
+
+BMP, JPEG, PNG, GIF bu...
+*Grafik fayl formatlari
+Video formatlar
+Audio fayllar
+Matn fayllari
+
+Vektor grafikasiga tegishli format:
+PNG
+BMP
+*SVG
+JPEG
+
+Fraktal grafika qanday yaratiladi?
+Piksel to‘plami orqali
+*Matematik formulalar orqali
+Ranglar orqali
+Video orqali
+
+“Rendering” jarayoni nima?
+*Modelni yakuniy tasvirga aylantirish jarayoni
+Rang tanlash
+Rasmni siqish
+Fayl saqlash
+
+RGB modelida qaysi ranglar mavjud?
+*Qizil, Yashil, Moviy
+Sariq, Ko‘k, Qora
+Oq, Qora, Kulrang
+Qizil, Sariq, Ko‘k
+
+Vektor grafikasining afzalligi nimada?
+*Kattalashtirilganda sifati o‘zgarmaydi
+Ranglar yo‘qoladi
+Sifat pasayadi
+Hajm ortadi
+
+Kompyuter grafikasi va dizayn o‘rtasidagi farq nima?
+*Grafika — tasvir yaratish, dizayn — uni estetik qo‘llash
+Farqi yo‘q
+Faqat matnga tegishli
+Dizayn 3D uchun
+
+Grafik axborotlar bilan ishlash texnologiyasi nima?
+Matnli fayllarni yaratish
+*Grafik ma’lumotlarni ishlab chiqish va tahrirlash jarayoni
+Ma’lumotlar bazasi yaratish
+Video montaj
+
+Grafik axborotlar turlari qaysilar?
+*Raster, vektor, fraktal
+Statik, dinamik
+Rangli, oq-qora
+Matn, audio, video
+
+Raster grafikaning asosiy birligi nima?
+Bayt
+*Piksel
+Rang
+Nuqta
+
+Vektor grafika qanday yaratiladi?
+Rastrli tasvirdan
+*Matematik ifodalar asosida
+Fotosuratdan
+Qalam bilan
+
+Grafik fayl formati nima?
+*Grafik ma’lumotni saqlash shakli
+Tasvir o‘lchami
+Fayl hajmi
+Rang turi
+
+Raster formatni belgilang:
+SVG
+*JPEG
+CDR
+EPS
+
+Vektor formatga tegishlisi:
+PNG
+*SVG
+BMP
+TIFF
+
+“Rang modeli” atamasi nimani bildiradi?
+*Ranglarni matematik tarzda ifodalash usuli
+Rang sonini belgilash
+Ruxsat aniqligini
+Faqat RGB tizimini
+
+RGB modelidagi komponentlar:
+*Red, Green, Blue
+Cyan, Magenta, Yellow
+Hue, Value, Light
+Oq, Qora, Kulrang
+
+CMYK modeli qayerda qo‘llaniladi?
+*Bosma (printer) tizimlarida
+Monitorlarda
+Video fayllarda
+Tarmoqda
+
+Rezolyutsiya nima?
+Fayl kengaytmasi
+*Piksel zichligi (aniqlik)
+Rang turi
+Fayl hajmi
+
+Fayl hajmiga nima ta’sir qiladi?
+Kompyuter turi
+*Ruxsat etilgan aniqlik va rang chuqurligi
+Fayl nomi
+Dastur versiyasi
+
+Siqish texnologiyasining maqsadi nima?
+*Fayl hajmini kamaytirish
+Rangni o‘zgartirish
+Rasmni aylantirish
+Tasvirni kattalashtirish
+
+Grafik tahrirlovchi dastur:
+Excel
+Word
+*Photoshop
+PowerPoint
+
+Vektor grafikasi uchun dasturlarni belgilang:
+*CorelDRAW, Illustrator, Inkscape
+Paint, GIMP, Photoshop
+Canva, Paint 3D
+AutoCAD, Maya
+
+Fraktal grafika qayerda ishlatiladi?
+*Tabiiy shakllarni modellashtirishda
+Matn tahririda
+Skanerlashda
+Logotipda
+
+Interfeys deganda nima tushuniladi?
+Faqat menyular
+*Foydalanuvchi va dastur o‘rtasidagi muloqot muhiti
+Ekran o‘lchami
+Tizim nomi
+
+Grafik ma’lumot uzatishda muhim talab:
+*Sifat va tezlik
+Fayl nomi
+Internet narxi
+Ranglar soni
+
+Eksport qilish jarayoni nimani anglatadi?
+*Faylni boshqa formatga saqlash
+Faylni o‘chirish
+Faylni siqish
+Faylni chop etish
+
+Grafik axborotlar bilan ishlash texnologiyasining asosiy maqsadi:
+*Ma’lumotlarni samarali yaratish, saqlash va uzatish
+Faqat matn yozish
+Tarmoqni sozlash
+Ovoz yozish
+
+CorelDRAW dasturi nima uchun ishlatiladi?
+Animatsiya yaratish uchun
+*Vektorli grafikani chizish va tahrirlash uchun
+Matn yozish uchun
+Video montaj qilish uchun
+
+CorelDRAW fayllarining asosiy kengaytmasi qaysi?
+.AI
+.PSD
+*.CDR
+.BMP
+
+CorelDRAW dasturi qaysi grafik turida ishlaydi?
+3D grafika
+Raster grafika
+*Vektor grafika
+Fraktal grafika
+
+CorelDRAW dasturini ishlab chiqqan kompaniya qaysi?
+Adobe
+*Corel Corporation
+Autodesk
+Microsoft
+
+“Toolbox” paneli nima vazifani bajaradi?
+Ranglarni tanlash
+*Asboblarni tanlash uchun ishlatiladi
+Matn yozish uchun
+Sahifa ko‘rsatkichlarini o‘zgartiradi
+
+“Pick Tool” vositasi nima uchun xizmat qiladi?
+*Obyektni tanlash va o‘lchamini o‘zgartirish uchun
+Rangni o‘zgartirish uchun
+Matn kiritish uchun
+Chiziq chizish uchun
+
+“Shape Tool” qanday imkoniyat beradi?
+Matnni formatlaydi
+*Obyekt shaklini tahrirlaydi
+Fon o‘zgartiradi
+Rasmga effekt qo‘shadi
+
+“Ellipse Tool” yordamida nima yaratiladi?
+*Aylana yoki ellips shakli
+To‘rtburchak
+Rang palitrasi
+Yozuv
+
+“Polygon Tool” vositasi yordamida nima yaratiladi?
+Rasmga fon qo‘shiladi
+*Ko‘pburchak shakli yaratiladi
+Matn qo‘shiladi
+Rang tanlanadi
+
+“Zoom Tool” vositasi qanday ishlaydi?
+Obyektni aylantiradi
+*Tasvirni kattalashtiradi yoki kichraytiradi
+Rasmni bo‘yaydi
+Matnni joylashtiradi
+
+“Text Tool” vositasi nima uchun ishlatiladi?
+*Matn yozish va tahrirlash uchun
+Rang o‘zgartirish uchun
+Chiziq chizish uchun
+Obyekt aylantirish uchun
+
+Rang tanlash uchun qaysi panel ishlatiladi?
+Menu Bar
+*Color Palette
+Property Bar
+Status Bar
+
+“Fountain Fill” funksiyasi nima qiladi?
+*Gradient rang o‘tishini yaratadi
+Matn rangini o‘zgartiradi
+Kontur chizadi
+Obyektni aylantiradi
+
+“Outline Tool” vositasi nima uchun ishlatiladi?
+Rang tanlash uchun
+*Kontur rangini va qalinligini sozlash uchun
+Matn yozish uchun
+Sahifani o‘zgartirish uchun
+
+Sahifa o‘lchamini o‘zgartirish uchun qaysi menyu tanlanadi?
+Tools → Options
+*Layout → Page Setup
+Edit → Copy
+File → New
+
+“Align and Distribute” funksiyasi nima bajaradi?
+Rang uyg‘unligini yaratadi
+*Obyektlarni tekis joylashtiradi
+Matnni o‘rnatadi
+Rasmni tahrirlaydi
+
+Logotip yaratishda asosan qanday elementlardan foydalaniladi?
+Fotosuratlar
+*Shakllar, ranglar va matn obyektlari
+Video kadrlar
+Ovozlar
+
+“Group” buyrug‘i nima qiladi?
+*Bir nechta obyektni bitta guruhga birlashtiradi
+Rangni o‘zgartiradi
+Fonni o‘chiradi
+Obyektni tahrirlaydi
+
+Dizaynni eksport qilish uchun qaysi amal bajariladi?
+*File → Export (Ctrl + E)
+Edit → Save As
+Tools → Preferences
+Layout → Export
+
+CorelDRAW dasturining asosiy afzalligi nimada?
+*Vektor tasvir sifatini yo‘qotmasdan o‘lchamini o‘zgartirish mumkin
+Faqat fotosurat tahriri uchun
+Matn muharriri sifatida ishlaydi
+3D model yaratadi
+
+Kompyuter grafikasining asosiy turlari qaysilar?
+#Raster
+#Vektor
+#Fraktal
+Audio
+
+Raster grafikaning o‘ziga xos xususiyatlari:
+#Piksel asosida yaratiladi
+#Kattalashtirilganda sifat yo‘qoladi
+Matematik formulalar bilan yaratiladi
+Faqat qora-oq rangda bo‘ladi
+
+Vektor grafikasining afzalliklari:
+#Kattalashtirganda sifat saqlanadi
+#Fayl hajmi kichik bo‘lishi mumkin
+Har doim piksellar asosida tuziladi
+Faqat rangli tasvirlar uchun
+
+Kompyuter grafikasi qayerlarda qo‘llaniladi?
+#Dizayn va reklama sohalarida
+#Ilmiy vizualizatsiyada
+#Animatsiya va o‘yinlar yaratishda
+Faqat matn tahriri uchun
+
+
+Vektor grafika uchun mo‘ljallangan dasturlar:
+#CorelDRAW
+#Adobe Illustrator
+Paint
+GIMP
+
+Raster grafika bilan ishlaydigan dasturlar:
+#Adobe Photoshop
+#GIMP
+CorelDRAW
+AutoCAD
+
+Kompyuter grafikasi yordamida nimalar yaratiladi?
+#Diagrammalar
+#Logotiplar
+#Rasm va reklama bannerlari
+Matnli fayllar
+
+3D grafika deganda nima tushuniladi?
+#Uch o‘lchamli modellashtirish
+#Realistik obyektlar yaratish
+Ikki o‘lchamli tasvir
+Matn muharriri
+
+Kompyuter grafikasi bilan ishlashda muhim parametrlar:
+#Ruxsat aniqligi (resolution)
+#Rang chuqurligi (color depth)
+Klaviatura turi
+Monitor markasi
+
+Fayl formatlari grafikada ishlatiladi:
+#PNG
+#JPEG
+#SVG
+DOC
+
+RGB modeli nimalardan iborat?
+#Red
+#Green
+#Blue
+Yellow
+
+CMYK modeli qayerda qo‘llaniladi?
+#Printer va bosma nashrlarda
+#Poligrafiya jarayonlarida
+Monitorlarda
+Video o‘yinlarda
+
+Kompyuter grafikasi yordamida amalga oshiriladigan ishlar:
+#Vizual axborot tayyorlash
+#Dizayn yaratish
+#Rasmni qayta ishlash
+Faqat kod yozish
+
+Grafik tasvirning sifati nimalarga bog‘liq?
+#Piksel zichligiga
+#Rang chuqurligiga
+Faqat fayl nomiga
+Klaviatura turiga
+
+Raster grafikani ishlatish maqsadi:
+#Fotosurat tahriri
+#Realistik tasvirlar yaratish
+Logotip chizish
+Diagramma tuzish
+
+Vektor grafikasi ishlatiladigan sohalar:
+#Texnik chizmalar
+#Logotip dizayni
+#Tipografiya
+Fotosuratlar
+
+Grafik fayllarni saqlash usullari:
+#BMP
+#PNG
+#SVG
+TXT
+
+Kompyuter grafikasi vositalari:
+#Grafik planshet
+#Sichqoncha (mouse)
+#Monitor
+Printer
+
+Fraktal grafika nimaga asoslanadi?
+#Matematik tenglamalar
+#Takrorlanish naqshlari
+Piksellar
+Audio signallar
+
+Kompyuter grafikasining asosiy afzalliklari:
+#Axborotni vizual tarzda yetkazish
+#Tahlil qilishni osonlashtiradi
+#Estetik ko‘rinishni yaxshilaydi
+Faqat kodlash imkonini beradi
+
+Grafik axborot turlari:
+#Raster
+#Vektor
+#Fraktal
+Matn
+
+Grafik axborotlar bilan ishlash jarayonlari:
+#Yaratish
+#Tahrirlash
+#Saqlash va uzatish
+Chop etish
+
+Raster grafikaning kamchiliklari:
+#Kattalashtirilganda sifat yo‘qoladi
+#Fayl hajmi katta bo‘ladi
+Rang chuqurligi yo‘q
+Rastrda matn yozilmaydi
+
+Vektor grafikaning afzalliklari:
+#Oson tahrirlanadi
+#Kattalashtirilganda sifat saqlanadi
+Har doim sekin ishlaydi
+Rasm formatiga ega emas
+
+Rang modellariga misollar:
+#RGB
+#CMYK
+#HSV
+DOC
+
+Grafik fayl formatlari:
+#JPEG
+#PNG
+#SVG
+TXT
+
+Grafik axborotlarni uzatishda muhim ko‘rsatkichlar:
+#Sifat
+#Tezlik
+#Fayl hajmi
+Klaviatura turi
+
+Rang chuqurligi nimani bildiradi?
+#Ranglar sonini
+#Tasvirdagi aniqlikni
+Ekran o‘lchamini
+Matn uzunligini
+
+Rezolyutsiya qaysi birlik bilan o‘lchanadi?
+#DPI
+#PPI
+CMYK
+BPS
+
+Grafik axborotlarni siqish usullari:
+#ZIP
+#RAR
+#JPEG siqish
+MP3
+
+Grafik tahrirlovchi dasturlar:
+#Photoshop
+#CorelDRAW
+#GIMP
+Word
+
+Vektor grafika bilan ishlaydigan dasturlar:
+#Illustrator
+#CorelDRAW
+Paint
+GIMP
+
+Grafik axborotlarni saqlash texnologiyalari:
+#Fayl formatlari
+#Bulutli saqlash (cloud)
+#Kompressiya usullari
+Faqat internet
+
+Rang modellarining asosiy turlari:
+#RGB
+#CMYK
+#HSV
+PDF
+
+Grafik axborotlar ishlatiladigan sohalar:
+#Reklama dizayni
+#Arxitektura
+#Ilmiy vizualizatsiya
+Kod yozish
+
+Interfeysda mavjud elementlar:
+#Asboblar paneli
+#Ishchi maydon
+#Rang palitrasi
+Printer sozlamasi
+
+Grafik fayl hajmiga ta’sir qiluvchi omillar:
+#Ruxsat aniqligi
+#Rang chuqurligi
+#Siqish darajasi
+Klaviatura
+
+Fayl eksporti nimani anglatadi?
+#Boshqa formatga saqlash
+#Boshqa dasturga uzatish
+Faylni yopish
+Faylni o‘chirish
+
+Grafik axborotlarni vizualizatsiya qilishning afzalliklari:
+#Yaxshi tushunarlilik
+#Axborotni tez idrok etish
+#Estetik ko‘rinish
+Kattaroq fayl hajmi
+
+Grafik axborotlar bilan ishlash texnologiyasining asosiy maqsadi:
+#Axborotni vizual tarzda samarali ifodalash
+#Ma’lumotni tez tahlil qilish
+#Yaratilgan grafikani saqlash va ulashish
+Faqat matn yozish
+
+CorelDRAW dasturi yordamida bajariladigan ishlar:
+#Logotip yaratish
+#Vizitka tayyorlash
+#Banner dizayni
+Video montaj
+
+CorelDRAW grafik turi:
+#Vektor
+Raster
+Fraktal
+3D
+
+CorelDRAW asosiy fayl formati:
+#.CDR
+.PSD
+.AI
+.JPEG
+
+CorelDRAW asboblar paneliga misollar:
+#Pick Tool
+#Shape Tool
+#Zoom Tool
+Text Box
+
+Rang palitrasining vazifasi:
+#Rang tanlash
+#Rang o‘zgartirish
+Sahifa o‘lchamini tahrirlash
+Asboblarni yashirish
+
+“Pick Tool” vositasi nimalar uchun?
+#Obyekt tanlash
+#O‘lchamini o‘zgartirish
+#Siljitish
+Rang berish
+
+“Shape Tool” yordamida nima qilinadi?
+#Shaklni tahrirlash
+#Burchaklarni o‘zgartirish
+Rasmni siqish
+Matn yozish
+
+“Ellipse Tool” orqali yaratiladigan shakllar:
+#Aylana
+#Ellips
+To‘rtburchak
+Yozuv
+
+“Polygon Tool” yordamida yaratiladigan obyektlar:
+#Uchburchak
+#Ko‘pburchak
+Ellips
+Chiziq
+
+“Text Tool” yordamida bajariladigan amallar:
+#Matn yozish
+#Matnni tahrirlash
+Rang berish
+Rasm chizish
+
+“Fountain Fill” vazifasi:
+#Rang o‘tish (gradient) yaratish
+#So‘nuvchi fon berish
+Matn yozish
+Rasm aylantirish
+
+“Outline Tool” yordamida nimalar o‘rnatiladi?
+#Kontur qalinligi
+#Kontur rangi
+Tasvir aniqligi
+Shrift turi
+
+“Align and Distribute” nima qiladi?
+#Obyektlarni tekislash
+#Joylashuvini tenglashtirish
+Rang qo‘shish
+Kontur o‘chirish
+
+“Group” buyrug‘i nima uchun kerak?
+#Obyektlarni birlashtirish
+#Guruhdan ajratish (Ungroup bilan)
+Rasmni siqish
+Matnni o‘chirish
+
+“Layout → Page Setup” oynasida nima o‘rnatiladi?
+#Sahifa o‘lchami
+#Orientatsiya (yo‘nalish)
+Matn turi
+Rang modeli
+
+CorelDRAW dasturining afzalliklari:
+#Vektor sifat saqlanadi
+#Grafik o‘lchami o‘zgarganda sifat yo‘qolmaydi
+#Oson tahrirlanadi
+Faqat fotosurat tahriri
+
+CorelDRAW bilan yaratiladigan ishlar:
+#Banner dizayni
+#Broshyura
+#Logo va afisha
+Video klip
+
+“Zoom Tool” yordamida bajariladigan ishlar:
+#Kattalashtirish
+#Kichraytirish
+Rang tanlash
+Matn yozish
+
+CorelDRAW interfeysidagi asosiy qismlar:
+#Ishchi maydon
+#Asboblar paneli
+#Rang palitrasi
+Audio sozlamalari
+
+CorelDRAW imkoniyatlari:
+#Vektor chizish
+#Faylni eksport qilish
+#Shrift tahriri
+Video tahriri

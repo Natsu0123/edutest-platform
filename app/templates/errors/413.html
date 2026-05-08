@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}{{ _('error.file_too_large') }} | {{ _('brand') }}{% endblock %}
+{% block content %}
+<section class="card auth-card">
+    <h1>{{ _('error.file_too_large') }}</h1>
+    <p class="muted">{{ _('error.file_too_large_desc') }}</p>
+    <a class="button" href="{{ url_for('admin.upload_tests') }}">{{ _('error.back_upload') }}</a>
+</section>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}{{ group.name }} | {{ _('brand') }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>Группа {{ group.name }}</h1>
+        <p class="muted">Список участников группы и назначение учителей</p>
+    </div>
+    <div class="actions-row">
+        <a class="button button-secondary" href="{{ url_for('admin.users') }}">Назад к пользователям</a>
+    </div>
+</section>
+
+<section class="card">
+    <div class="page-header">
+        <div>
+            <h2>Студенты группы</h2>
+            <p class="muted">Все ученики, прикреплённые к группе {{ group.name }}.</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>{{ _('admin.full_name') }}</th>
+                    <th>{{ _('admin.username') }}</th>
+                    <th>{{ _('admin.role') }}</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in students %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td><strong>{{ user.full_name }}</strong></td>
+                        <td>{{ user.username }}</td>
+                        <td><span class="status status-done">{{ user.role }}</span></td>
+                        <td>
+                            <form method="post"
+                                  action="{{ url_for('admin.delete_user', user_id=user.id) }}"
+                                  onsubmit="return confirm('Удалить пользователя?');"
+                                  style="display:inline;">
+                                <button class="button button-secondary" type="submit">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="muted">В этой группе пока нет студентов</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% if current_user.is_admin %}
+<section class="card">
+    <div class="page-header">
+        <div>
+            <h2>Назначение учителей</h2>
+            <p class="muted">Выберите, какие учителя прикреплены к группе {{ group.name }}.</p>
+        </div>
+    </div>
+
+    <form method="post" action="{{ url_for('admin.assign_group', group_id=group.id) }}" class="form-grid">
+        <div class="checkbox-grid">
+            {% for teacher in teachers %}
+                <label class="option-item">
+                    <input type="checkbox"
+                           name="teacher_ids"
+                           value="{{ teacher.id }}"
+                           {% if teacher in group.teachers %}checked{% endif %}>
+                    <span>{{ teacher.full_name }} ({{ teacher.username }})</span>
+                </label>
+            {% else %}
+                <div class="muted">Учителей пока нет</div>
+            {% endfor %}
+        </div>
+
+        <div class="actions-row">
+            <button class="button" type="submit">Сохранить назначение</button>
+        </div>
+    </form>
+</section>
+{% endif %}
+{% endblock %}

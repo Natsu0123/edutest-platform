@@ -1,0 +1,136 @@
+﻿{% extends 'base.html' %}
+{% block title %}{{ _('admin.results_title') }} | {{ _('brand') }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>{{ _('admin.results_students_title') }}</h1>
+        <p class="muted">{{ _('admin.results_desc') }}</p>
+    </div>
+</section>
+
+<section class="card">
+    <form method="get" class="form-grid form-grid-inline">
+        <label>
+            <span>{{ _('admin.result_student') }}</span>
+            <select name="student_id">
+                <option value="">{{ _('admin.filter_all') }}</option>
+                {% for student in students %}
+                    <option value="{{ student.id }}" {% if selected_student_id == student.id %}selected{% endif %}>
+                        {{ student.full_name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label>
+            <span>{{ _('admin.result_test') }}</span>
+            <select name="test_id">
+                <option value="">{{ _('admin.filter_all') }}</option>
+                {% for test in tests %}
+                    <option value="{{ test.id }}" {% if selected_test_id == test.id %}selected{% endif %}>
+                        {{ test.title }}
+                    </option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            <span>Группа</span>
+            <select name="group_id">
+                <option value="">Все</option>
+                {% for g in groups %}
+                    <option value="{{ g.id }}"
+                        {% if selected_group_id == g.id %}selected{% endif %}>
+                        {{ g.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <div class="actions-row">
+            <button class="button" type="submit">{{ _('admin.apply_filters') }}</button>
+            <a class="button button-secondary"
+               href="{{ url_for('admin.results',
+                   student_id=selected_student_id,
+                   test_id=selected_test_id,
+                   group_id=selected_group_id,
+                   export='xlsx') }}"
+            </a>
+        </div>
+    </form>
+</section>
+
+<section class="card">
+    <div class="page-header">
+        <div>
+            <h2>Результаты</h2>
+            <p class="muted">Просмотр попыток, баллов и признаков подозрительной активности.</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{{ _('admin.result_student') }}</th>
+                    <th>{{ _('admin.result_test') }}</th>
+                    <th>{{ _('admin.result_started') }}</th>
+                    <th>{{ _('admin.result_finished') }}</th>
+                    <th>{{ _('admin.result_score') }}</th>
+                    <th>{{ _('admin.result_tab_switches') }}</th>
+                    <th>Risk</th>
+                    <th>Причины</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for attempt in attempts %}
+                    <tr>
+                        <td>
+                            <strong>{{ attempt.user.full_name }}
+                    </strong>
+                        <td>{{ attempt.test.title }}</td>
+                        <td>{{ attempt.started_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                        <td>{{ attempt.finished_at.strftime('%d.%m.%Y %H:%M') if attempt.finished_at else '—' }}</td>
+                        <td>
+                            <strong>{{ attempt.earned_score }} / {{ attempt.max_score }}</strong>
+                            <br>
+                            <span class="muted">({{ attempt.score_percent }}%)</span>
+                        </td>
+                        <td>
+                            {% if attempt.tab_switch_count and attempt.tab_switch_count > 0 %}
+                                <span class="status status-new">{{ attempt.tab_switch_count }}</span>
+                            {% else %}
+                                <span class="muted">0</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if attempt.risk_level == 'high' %}
+                                <span class="status" style="background: rgba(239, 68, 68, 0.14); color: #ef4444;">HIGH</span>
+                            {% elif attempt.risk_level == 'medium' %}
+                                <span class="status" style="background: rgba(245, 158, 11, 0.14); color: #f59e0b;">MEDIUM</span>
+                            {% else %}
+                                <span class="status" style="background: rgba(16, 185, 129, 0.14); color: #10b981;">LOW</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <small>
+                                {% for reason in attempt.risk_reasons %}
+                                    {% if reason == 'Подозрительных признаков не найдено' %}
+                                        <span class="muted">{{ reason }}</span>
+                                    {% else %}
+                                        <div>• {{ reason }}</div>
+                                    {% endif %}
+                                {% endfor %}
+                            </small>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="empty-state">{{ _('admin.no_finished_attempts') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

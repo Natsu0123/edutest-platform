@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}{{ _('auth.login_title') }} | {{ _('brand') }}{% endblock %}
+{% block content %}
+<section class="card auth-card">
+    <div style="text-align:center; margin-bottom:20px;">
+        <div style="font-size:42px;">🎓</div>
+    </div>
+
+    <h1>{{ _('auth.login_title') }}</h1>
+    <p class="muted">{{ _('auth.login_desc') }}</p>
+
+    <form method="post" class="form-grid">
+        {{ form.hidden_tag() }}
+
+        <label>
+            <span>{{ _('auth.username') }}</span>
+            {{ form.username(placeholder=_('auth.username')) }}
+        </label>
+
+        <label>
+            <span>{{ _('auth.password') }}</span>
+            <div class="password-field">
+                {{ form.password(id='login_password', placeholder=_('auth.password')) }}
+                <button type="button" class="password-toggle" data-toggle-password="#login_password">
+                    Показать пароль
+                </button>
+            </div>
+        </label>
+
+        {{ form.submit(class_='button', style="width:100%; font-size:16px;", value=_('nav.login')) }}
+    </form>
+
+    <p class="form-footer">
+        {{ _('auth.no_account') }}
+        <a href="{{ url_for('auth.register') }}">{{ _('auth.register_link') }}</a>
+    </p>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-toggle-password]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const input = document.querySelector(btn.getAttribute('data-toggle-password'));
+      if (!input) return;
+      input.type = input.type === 'password' ? 'text' : 'password';
+      btn.textContent = input.type === 'password' ? 'Показать' : 'Скрыть';
+    });
+  });
+});
+</script>
+{% endblock %}

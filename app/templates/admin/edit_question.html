@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %}Редактирование вопроса | {{ _('brand') }}{% endblock %}
+{% block content %}
+<section class="card form-card">
+    <h1>Редактирование вопроса</h1>
+    <p class="muted">{{ test.title }}</p>
+
+    <form method="post" class="form-grid" id="question-form">
+        <label>
+            <span>{{ _('admin.question_text') }}</span>
+            <textarea name="text" rows="4" required>{{ data.get('text', '') if data else '' }}</textarea>
+        </label>
+
+        <label>
+            <span>{{ _('admin.question_type') }}</span>
+            <select name="question_type" id="question-type-select">
+                {% for question_type in question_types %}
+                    <option value="{{ question_type }}" {% if data and data.get('question_type') == question_type %}selected{% endif %}>
+                        {{ _('question_type.' ~ question_type) }}
+                    </option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <div class="question-type-section" data-type-section="single_choice" data-type-section="multiple_choice">
+            <span class="block-label">{{ _('admin.answer_options') }}</span>
+            <div class="options-editor">
+                {% for index in range(1, 7) %}
+                    <div class="option-editor-row">
+                        <input type="text" name="option_{{ index }}" value="{{ data.get('option_' ~ index, '') if data else '' }}">
+                        <label class="inline-check">
+                            <input
+                                type="checkbox"
+                                name="correct_options"
+                                value="{{ index }}"
+                                {% if data and ('correct_options' in data) and (index|string) in data.get('correct_options', []) %}checked{% endif %}
+                            >
+                            <span>{{ _('admin.correct_option') }}</span>
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="question-type-section" data-type-section="text">
+            <span class="block-label">{{ _('admin.text_correct_answer') }}</span>
+            <input type="text" name="text_correct_answer" value="{{ data.get('text_correct_answer', '') if data else '' }}">
+        </div>
+
+        <div class="question-type-section" data-type-section="matching">
+            <span class="block-label">{{ _('question_type.matching') }}</span>
+            <div class="matching-grid">
+                <div>
+                    <strong>{{ _('admin.matching_left') }}</strong>
+                    {% set pairs = question.payload.get('pairs', []) if question else [] %}
+                    {% for index in range(4) %}
+                        <input type="text" name="matching_left[]" value="{{ pairs[index]['left'] if pairs|length > index else '' }}">
+                    {% endfor %}
+                </div>
+                <div>
+                    <strong>{{ _('admin.matching_right') }}</strong>
+                    {% for index in range(4) %}
+                        <input type="text" name="matching_right[]" value="{{ pairs[index]['right'] if pairs|length > index else '' }}">
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="question-type-section" data-type-section="ordering">
+            <span class="block-label">{{ _('admin.ordering_items') }}</span>
+            <div class="options-editor">
+                {% set ordering_items = question.payload.get('items', []) if question else [] %}
+                {% for index in range(5) %}
+                    <input type="text" name="ordering_items[]" value="{{ ordering_items[index] if ordering_items|length > index else '' }}">
+                {% endfor %}
+            </div>
+        </div>
+
+        <label>
+            <span>Баллы за вопрос</span>
+            <input type="number" name="points" value="{{ data.get('points', 1) if data else 1 }}" min="1" required>
+        </label>
+
+        <div class="actions-row">
+            <button class="button" type="submit">Сохранить</button>
+            <a class="button button-secondary" href="{{ url_for('admin.view_test', test_id=test.id) }}">Назад</a>
+        </div>
+    </form>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById('question-type-select');
+    const sections = document.querySelectorAll('.question-type-section');
+
+    const sync = () => {
+        const current = select.value;
+        sections.forEach((section) => {
+            const types = section.getAttribute('data-type-section').split(' ');
+            section.style.display = types.includes(current) ? 'block' : 'none';
+        });
+    };
+
+    select.addEventListener('change', sync);
+    sync();
+});
+</script>
+{% endblock %}

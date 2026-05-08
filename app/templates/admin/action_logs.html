@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Журнал действий | {{ _('brand') }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>Журнал действий</h1>
+        <p class="muted">Последние действия администраторов и учителей</p>
+    </div>
+</section>
+
+<section class="card">
+    <div class="page-header">
+        <div>
+            <h2>Последние записи</h2>
+            <p class="muted">История изменений, импорта, редактирования и удалений.</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Когда</th>
+                    <th>Кто</th>
+                    <th>Тип действия</th>
+                    <th>Сущность</th>
+                    <th>ID сущности</th>
+                    <th>Описание</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                    <tr>
+                        <td>{{ log.id }}</td>
+                        <td>{{ log.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>
+                            <strong>{{ log.actor.full_name }}</strong><br>
+                            <span class="muted">{{ log.actor.username }}</span>
+                        </td>
+                        <td>
+                            <span class="status status-new">{{ log.action_type }}</span>
+                        </td>
+                        <td>{{ log.entity_type }}</td>
+                        <td>{{ log.entity_id or '—' }}</td>
+                        <td>{{ log.description }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="muted">Пока нет записей</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

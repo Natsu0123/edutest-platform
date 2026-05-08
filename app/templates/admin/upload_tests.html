@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}{{ _('admin.import_title') }} | {{ _('brand') }}{% endblock %}
+
+{% block content %}
+<section class="card form-card">
+    <h1>{{ _('admin.import_title') }}</h1>
+    <p class="muted">{{ _('admin.import_desc') }}</p>
+
+    <div class="actions-row" style="margin-bottom: 16px;">
+        <a class="button button-secondary" href="{{ url_for('admin.download_test_template') }}">
+            {{ _('admin.download_template') }}
+        </a>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="form-grid">
+        {{ form.hidden_tag() }}
+
+        <label>
+            <span>{{ _('common.file') }}</span>
+            {{ form.file() }}
+        </label>
+
+        <label>
+            <span>{{ _('common.time') }}</span>
+            {{ form.time_limit_minutes(min=1) }}
+        </label>
+
+        <label>
+            <span>{{ _('common.attempts') }}</span>
+            {{ form.max_attempts(min=1) }}
+        </label>
+
+        <label class="option-item">
+            {{ form.auto_assign() }}
+            <span>{{ _('admin.import_auto_assign') }}</span>
+        </label>
+
+        <label>
+            <span>{{ _('admin.import_auto_assign_count') }}</span>
+            {{ form.auto_assign_count(min=0) }}
+            <p class="muted">{{ _('admin.import_auto_assign_hint') }}</p>
+        </label>
+
+        {{ form.submit(class_='button', value=_('admin.upload_file')) }}
+    </form>
+
+    <div class="card card-muted import-help">
+        <h2>{{ _('admin.supported_formats') }}</h2>
+        <ul>
+            <li><strong>Word (.docx):</strong> формат блоков. Пример: <code>1 ballik savollar</code>, затем строки <code>Savol:</code>, <code>Turi:</code>, <code>Javoblar:</code> или <code>Javob:</code>. Картинку можно вставить сразу после строки вопроса.</li>
+            <li><strong>Excel (.xlsx):</strong> поддерживается и сам Excel, и ZIP-архив с Excel + картинками.</li>
+            <li><strong>ZIP (.zip):</strong> внутри должен быть <strong>один</strong> файл <code>.xlsx</code> и папка <code>images</code> с картинками.</li>
+            <li><strong>TXT:</strong> старый текстовый формат по-прежнему поддерживается.</li>
+        </ul>
+
+        <p class="muted" style="margin-top: 12px;">
+            Для Word блочный балл работает до следующего заголовка вроде <code>2 ballik savollar</code> или <code>3 балла</code>.
+            Для Excel значение из колонки <code>block_points</code> действует на следующие строки, пока не встретится новое.
+        </p>
+
+        <p class="muted" style="margin-top: 12px;">
+            Для Excel используй колонки:
+            <code>block_points</code>, <code>question</code>, <code>image_name</code>, <code>type</code>,
+            <code>answer1</code>, <code>answer2</code>, <code>answer3</code>, <code>answer4</code>, <code>correct</code>.
+        </p>
+
+        <p class="muted" style="margin-top: 12px;">
+            Для вопросов с одним правильным ответом в Excel укажи в колонке <code>correct</code> номер правильного варианта, например <code>2</code>.
+            Для нескольких правильных ответов — через запятую, например <code>1,3</code>.
+        </p>
+    </div>
+</section>
+{% endblock %}

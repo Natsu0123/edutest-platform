@@ -1,0 +1,232 @@
+﻿{% extends 'base.html' %}
+{% block title %}{{ _('student.take_title') }} | {{ _('brand') }}{% endblock %}
+{% block head_extra %}
+<script src="{{ url_for('static', filename='js/timer.js') }}" defer></script>
+{% endblock %}
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>{{ test.title }}</h1>
+        <p class="muted">{{ test.description }}</p>
+    </div>
+    <div class="actions-row">
+        <button type="button" class="button button-secondary" id="enter-fullscreen-btn">
+            To‘liq ekran
+        </button>
+        <div class="timer-box" data-timer data-seconds="{{ remaining_seconds }}">
+            {{ _('student.time_left') }} <strong data-timer-label>{{ remaining_seconds }}</strong>
+        </div>
+    </div>
+</section>
+
+<form method="post" action="{{ url_for('student.submit_test', test_id=test.id) }}" class="test-form" data-auto-submit>
+    <input type="hidden" name="tab_switch_count" id="tab-switch-count" value="0">
+
+    {% for item in ordered_questions %}
+        <section class="card question-card">
+            <h3>{{ _('common.questions') }} {{ loop.index }}</h3>
+            <p class="question-text">{{ item.question.text }}</p>
+
+            {% if item.question.image_path %}
+                <img
+                    src="{{ url_for('static', filename=item.question.image_path) }}"
+                    alt="question image"
+                    style="max-width: 100%; max-height: 320px; margin: 10px 0; border-radius: 10px;"
+                >
+            {% endif %}
+
+            <p class="muted">{{ _('admin.question_type') }}: {{ _(item.type_label_key) }}</p>
+
+            {% if item.type in ['single_choice', 'multiple_choice'] %}
+                <div class="options-list">
+                    {% for option in item.options %}
+                        <label class="option-item">
+                            <input
+                                type="{{ 'radio' if item.type == 'single_choice' else 'checkbox' }}"
+                                name="question_{{ item.question.id }}"
+                                value="{{ option.id }}"
+                            >
+                            <span>{{ option.text }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+
+            {% elif item.type == 'text' %}
+                <input
+                    type="text"
+                    name="text_question_{{ item.question.id }}"
+                    placeholder="{{ _('student.text_placeholder') }}"
+                >
+
+            {% elif item.type == 'matching' %}
+                <div class="matching-grid">
+                    {% for pair in item.pairs %}
+                        <div class="option-editor-row">
+                            <span>{{ pair['left'] }}</span>
+                            <select name="matching_{{ item.question.id }}_{{ loop.index0 }}">
+                                {% for right_item in item.right_items %}
+                                    <option value="{{ right_item }}">{{ right_item }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            {% elif item.type == 'ordering' %}
+                <div class="options-list">
+                    {% for ordering_item in item.ordering_items %}
+                        <div class="option-editor-row">
+                            <span>{{ ordering_item }}</span>
+                            <select name="ordering_{{ item.question.id }}_{{ ordering_item }}">
+                                {% for number in range(1, item.ordering_items|length + 1) %}
+                                    <option value="{{ number }}">{{ _('student.order_position') }} {{ number }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </section>
+    {% endfor %}
+
+    <div class="sticky-submit">
+        <button class="button" type="submit">
+            {{ _('student.submit_test') }}
+        </button>
+    </div>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const counterInput = document.getElementById('tab-switch-count');
+    const form = document.querySelector('form[data-auto-submit]');
+    const fullscreenBtn = document.getElementById('enter-fullscreen-btn');
+    const attemptId = {{ attempt.id }};
+    let submitted = false;
+    let heartbeatTimer = null;
+
+    async function sendEvent(eventName) {
+        if (submitted) return;
+
+        try {
+            await fetch(`/attempt/${attemptId}/heartbeat`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify({ event: eventName }),
+            });
+        } catch (e) {
+            // ignore
+        }
+    }
+
+    function startHeartbeat() {
+        heartbeatTimer = setInterval(() => {
+            sendEvent('heartbeat');
+        }, 10000);
+    }
+
+    function stopHeartbeat() {
+        if (heartbeatTimer) {
+            clearInterval(heartbeatTimer);
+            heartbeatTimer = null;
+        }
+    }
+
+    if (form) {
+        form.addEventListener('submit', () => {
+            submitted = true;
+            stopHeartbeat();
+        });
+    }
+
+    startHeartbeat();
+    sendEvent('heartbeat');
+
+    if (fullscreenBtn) {
+        fullscreenBtn.addEventListener('click', async () => {
+            try {
+                if (document.documentElement.requestFullscreen && !document.fullscreenElement) {
+                    await document.documentElement.requestFullscreen();
+                }
+            } catch (e) {
+                console.warn('Fullscreen blocked:', e);
+            }
+        });
+    }
+
+    window.addEventListener('beforeunload', (e) => {
+        if (submitted) return;
+        navigator.sendBeacon(
+            `/attempt/${attemptId}/heartbeat`,
+            new Blob([JSON.stringify({ event: 'pagehide' })], { type: 'application/json' })
+        );
+        e.preventDefault();
+        e.returnValue = '';
+    });
+
+    try {
+        history.pushState({ testLocked: true }, '', location.href);
+        window.addEventListener('popstate', () => {
+            if (submitted) return;
+            history.pushState({ testLocked: true }, '', location.href);
+            alert('Тест начат. Возврат назад заблокирован.');
+            sendEvent('pagehide');
+        });
+    } catch (e) {}
+
+    try {
+        const originalOpen = window.open;
+        window.open = function () {
+            if (!submitted) {
+                sendEvent('pagehide');
+                alert('Тест начат. Открытие новых окон/вкладок запрещено.');
+                return null;
+            }
+            return originalOpen.apply(window, arguments);
+        };
+    } catch (e) {}
+
+    document.querySelectorAll('.nav a').forEach((a) => {
+        a.addEventListener('click', (e) => {
+            if (submitted) return;
+            e.preventDefault();
+            sendEvent('pagehide');
+            alert('Тест начат. Выход заблокирован до сдачи теста.');
+        });
+    });
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            counterInput.value = String(Number(counterInput.value || 0) + 1);
+            sendEvent('visibility_hidden');
+        }
+
+        const switches = Number(counterInput.value || 0);
+        if (!document.hidden && switches >= 3 && form && !submitted) {
+            alert('Слишком много переключений вкладок. Тест будет отправлен.');
+            form.submit();
+        }
+    });
+
+    window.addEventListener('blur', () => {
+        if (submitted) return;
+        sendEvent('blur');
+    });
+
+    document.addEventListener('mouseleave', () => {
+        if (submitted) return;
+        sendEvent('mouseleave');
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+        if (submitted) return;
+        if (!document.fullscreenElement) {
+            sendEvent('fullscreen_exit');
+        }
+    });
+});
+</script>
+{% endblock %}

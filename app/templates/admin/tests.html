@@ -1,0 +1,127 @@
+﻿{% extends 'base.html' %}
+{% block title %}{{ _('admin.tests_title') }} | {{ _('brand') }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>{{ _('admin.tests_title') }}</h1>
+        <p class="muted">{{ _('admin.tests_desc') }}</p>
+    </div>
+    <div class="actions-row">
+        <a class="button" href="{{ url_for('admin.create_test') }}">{{ _('admin.create_test') }}</a>
+        <a class="button button-secondary" href="{{ url_for('admin.upload_tests') }}">{{ _('admin.import_from_file') }}</a>
+    </div>
+</section>
+
+<section class="card">
+    <div class="page-header">
+        <div>
+            <h2>{{ _('admin.tests_list') }}</h2>
+            <p class="muted">{{ _('admin.tests_list_desc') }}</p>
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table class="table tests-table">
+            <thead>
+                <tr>
+                    <th>{{ _('common.title') }}</th>
+                    <th>{{ _('common.description') }}</th>
+                    <th>{{ _('common.time') }}</th>
+                    <th>{{ _('common.attempts') }}</th>
+                    <th>{{ _('common.questions') }}</th>
+                    <th>{{ _('common.actions') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for test in tests %}
+                    <tr>
+                        <td><strong>{{ test.title }}</strong></td>
+                        <td>{{ test.description or '—' }}</td>
+                        <td>{{ test.time_limit_minutes }} {{ _('common.minutes_suffix') }}</td>
+                        <td>{{ test.max_attempts }}</td>
+                        <td>{{ test.questions|length }}</td>
+                        <td class="actions-cell">
+                            <div class="actions-row table-actions">
+                                <a class="button button-secondary" href="{{ url_for('admin.view_test', test_id=test.id) }}">
+                                    {{ _('common.open') }}
+                                </a>
+
+                                <a class="button button-secondary" href="{{ url_for('admin.edit_test', test_id=test.id) }}">
+                                    {{ _('common.edit') }}
+                                </a>
+
+                                <form method="post" action="{{ url_for('admin.duplicate_test', test_id=test.id) }}">
+                                    {{ csrf_form.hidden_tag() }}
+                                    <button class="button button-secondary" type="submit">
+                                        {{ _('common.duplicate') }}
+                                    </button>
+                                </form>
+
+                                <form method="post"
+                                      action="{{ url_for('admin.delete_test', test_id=test.id) }}"
+                                      onsubmit="return confirm('{{ _('common.delete') }}?');">
+                                    {{ csrf_form.hidden_tag() }}
+                                    <button class="button button-secondary" type="submit">
+                                        {{ _('common.delete') }}
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="empty-state">{{ _('admin.no_tests') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mobile-cards">
+        {% for test in tests %}
+            <div class="mobile-card">
+                <h3>{{ test.title }}</h3>
+                <p class="muted">{{ test.description or '—' }}</p>
+
+                <div class="mobile-meta">
+                    <span>{{ _('common.time') }}: {{ test.time_limit_minutes }} {{ _('common.minutes_suffix') }}</span>
+                    <span>{{ _('common.attempts') }}: {{ test.max_attempts }}</span>
+                </div>
+
+                <div class="mobile-meta">
+                    <span>{{ _('common.questions') }}: {{ test.questions|length }}</span>
+                </div>
+
+                <div class="actions-row mobile-action">
+                    <a class="button button-secondary" href="{{ url_for('admin.view_test', test_id=test.id) }}">
+                        {{ _('common.open') }}
+                    </a>
+
+                    <a class="button button-secondary" href="{{ url_for('admin.edit_test', test_id=test.id) }}">
+                        {{ _('common.edit') }}
+                    </a>
+
+                    <form method="post" action="{{ url_for('admin.duplicate_test', test_id=test.id) }}">
+                        {{ csrf_form.hidden_tag() }}
+                        <button class="button button-secondary" type="submit">
+                            {{ _('common.duplicate') }}
+                        </button>
+                    </form>
+
+                    <form method="post"
+                          action="{{ url_for('admin.delete_test', test_id=test.id) }}"
+                          onsubmit="return confirm('{{ _('common.delete') }}?');">
+                        {{ csrf_form.hidden_tag() }}
+                        <button class="button button-secondary" type="submit">
+                            {{ _('common.delete') }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <p class="empty-state">{{ _('admin.no_tests') }}</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

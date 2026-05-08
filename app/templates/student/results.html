@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}{{ _('student.results_title') }} | {{ _('brand') }}{% endblock %}
+{% block content %}
+<section class="page-header">
+    <div>
+        <h1>{{ _('student.results_title') }}</h1>
+        <p class="muted">{{ _('student.results_desc') }}</p>
+    </div>
+</section>
+
+<section class="card">
+    {% if attempts %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{{ _('common.title') }}</th>
+                    <th>{{ _('nav.results') }}</th>
+                    <th>{{ _('common.questions') }}</th>
+                    <th>%</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for attempt in attempts %}
+                    <tr>
+                        <td>{{ attempt.test.title }}</td>
+                        <td>{{ attempt.finished_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                        <td>{{ attempt.earned_score }} / {{ attempt.max_score }}</td>
+                        <td>{{ attempt.score_percent }}%</td>
+                        <td><a href="{{ url_for('student.view_attempt_result', attempt_id=attempt.id) }}">{{ _('common.open') }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="empty-state">{{ _('student.no_results') }}</p>
+    {% endif %}
+</section>
+{% endblock %}
